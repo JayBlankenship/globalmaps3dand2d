@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MapLibre Globe App</title>
+    <script src="node_modules/maplibre-gl/dist/maplibre-gl.js"></script>
+    <link href="node_modules/maplibre-gl/dist/maplibre-gl.css" rel="stylesheet" />
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+        #toggle-view {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1;
+            padding: 10px 15px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+        }
+        #toggle-view:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <button id="toggle-view">Switch to Globe View</button>
+    <script>
+        const baseStyle = {
+            version: 8,
+            sources: {
+                'osm': {
+                    type: 'raster',
+                    tiles: [
+                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
+                    ],
+                    tileSize: 256,
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }
+            },
+            layers: [
+                {
+                    id: 'osm-layer',
+                    type: 'raster',
+                    source: 'osm',
+                    minzoom: 0,
+                    maxzoom: 19
+                }
+            ]
+        };
+
+        const style2D = { ...baseStyle };
+
+        const globeStyle = { ...baseStyle };
+        globeStyle.projection = { type: 'globe' };
+        globeStyle.layers.unshift({
+            id: 'background',
+            type: 'background',
+            paint: {
+                'background-color': '#000'
+            }
+        });
+        globeStyle.light = {
+            'anchor': 'map',
+            'position': [0, 0, 1]
+        };
+
+        const map = new maplibregl.Map({
+            container: 'map',
+            style: globeStyle,
+            center: [0, 0],
+            zoom: 2,
+            pitch: 60,
+            bearing: 0
+        });
+
+        map.on('load', () => {
+            // Optional: Add controls or interactions
+            map.addControl(new maplibregl.NavigationControl());
+
+            // Toggle button functionality
+            const toggleButton = document.getElementById('toggle-view');
+            let isGlobe = true;
+            toggleButton.textContent = 'Switch to 2D View';
+
+            toggleButton.addEventListener('click', () => {
+                if (isGlobe) {
+                    map.setStyle(style2D);
+                    map.setZoom(2);
+                    map.setPitch(0);
+                    toggleButton.textContent = 'Switch to Globe View';
+                    isGlobe = false;
+                } else {
+                    map.setStyle(globeStyle);
+                    map.setZoom(2);
+                    map.setPitch(60);
+                    toggleButton.textContent = 'Switch to 2D View';
+                    isGlobe = true;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
