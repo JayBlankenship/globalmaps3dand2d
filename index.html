@@ -72,15 +72,19 @@
         const map = new maplibregl.Map({
             container: 'map',
             style: globeStyle,
-            center: [0, 0],
+            center: [90, 0],
             zoom: 2,
-            pitch: 60,
+            pitch: 0,
             bearing: 0
         });
 
         map.on('load', () => {
             // Optional: Add controls or interactions
             map.addControl(new maplibregl.NavigationControl());
+
+            // Disable rotation controls
+            map.dragRotate.disable();
+            map.touchZoomRotate.disable();
 
             // Toggle button functionality
             const toggleButton = document.getElementById('toggle-view');
@@ -90,14 +94,22 @@
             toggleButton.addEventListener('click', () => {
                 if (isGlobe) {
                     map.setStyle(style2D);
+                    map.setCenter([0, 0]);
                     map.setZoom(2);
                     map.setPitch(0);
+                    map.setBearing(0);
+                    map.dragRotate.enable();
+                    map.touchZoomRotate.enable();
                     toggleButton.textContent = 'Switch to Globe View';
                     isGlobe = false;
                 } else {
                     map.setStyle(globeStyle);
+                    map.setCenter([90, 0]);
                     map.setZoom(2);
-                    map.setPitch(60);
+                    map.setPitch(0);
+                    map.setBearing(0);
+                    map.dragRotate.disable();
+                    map.touchZoomRotate.disable();
                     toggleButton.textContent = 'Switch to 2D View';
                     isGlobe = true;
                 }
