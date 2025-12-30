@@ -54,13 +54,6 @@
         };
 
         const style2D = { ...baseStyle };
-        style2D.layers.unshift({
-            id: 'background',
-            type: 'background',
-            paint: {
-                'background-color': '#000'
-            }
-        });
 
         const globeStyle = { ...baseStyle };
         globeStyle.projection = { type: 'globe' };
