@@ -14,23 +14,17 @@ A simple web application demonstrating the use of MapLibre GL JS, an open-source
 
 ## Installation
 
-1. Clone or download this repository.
-2. Navigate to the project directory.
-3. Install dependencies:
+Clone or download this repository. No dependencies are required for basic usage—the app loads MapLibre GL JS via CDN.
 
-   ```bash
-   npm install
-   ```
+For local development with a server (recommended to avoid potential CORS issues with map tiles):
+
+1. Install Node.js if not already installed.
+2. Run `npm install` to install the development server.
 
 ## Usage
 
-Start the development server:
-
-```bash
-npm start
-```
-
-Open your browser and go to `http://localhost:8083` to view the app.
+- **Basic (static)**: Open `index.html` directly in a web browser.
+- **With server**: Run `npm start` to start the development server on `http://localhost:8083`.
 
 The app starts with a 2D map using OpenStreetMap tiles. Click the "Switch to Globe View" button to toggle to a 3D spherical globe. You can interact with both views using mouse or touch controls.
 
