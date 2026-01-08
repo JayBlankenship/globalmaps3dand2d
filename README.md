@@ -1,5 +1,7 @@
 # MapLibre Globe App
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A simple web application demonstrating the use of MapLibre GL JS, an open-source alternative to Mapbox GL JS, to display an interactive map with toggleable 2D and 3D globe views using OpenStreetMap tiles.
 
 ## Features
